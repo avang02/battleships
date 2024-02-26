@@ -5,6 +5,7 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
     height: 100vh;
+    max-width: 100%;
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -35,4 +36,54 @@ header {
     width: 5vmin;
     height: 5vmin;
     border: 0.1px solid
+}
+
+.ship-container {
+    display: flex;
+    justify-content: space-between;
+    width: 110vmin;
+    margin-top: 2vmin;
+}
+
+.player-ships {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.cpu-ships {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+#carrier {
+    height: 5vmin;
+    width: 25vmin;
+    margin-bottom: 5px;
+    background-color: yellow;
+}
+#battleship {
+    height: 5vmin;
+    width: 20vmin;
+    margin-bottom: 5px;
+    background-color: blueviolet;
+}
+#destroyer {
+    height: 5vmin;
+    width: 15vmin;
+    margin-bottom: 5px;
+    background-color: chartreuse;
+}
+#submarine {
+    height: 5vmin;
+    width: 15vmin;
+    margin-bottom: 5px;
+    background-color: brown;
+}
+#patrol-boat {
+    height: 5vmin;
+    width: 10vmin;
+    margin-bottom: 5px;
+    background-color: firebrick;
 }

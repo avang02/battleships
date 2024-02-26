@@ -17,6 +17,12 @@
   /*----- event listeners -----*/
 
 
+  /*----- Main -----*/
+  render();
+
+
+
+
   /*----- functions -----*/
 
   // Render's the board at start up and at current state of game
@@ -29,6 +35,13 @@
 
   // Renders two 10x10 board for player and CPU. Each board will have letter's A-J for each row and numbers 1-10 for each column
   function renderBoard(user) {
+    createBoard("player");
+    createBoard("cpu")
+  }
+
+
+  // This will be the HUD for the remaining ships of both the player and CPU
+  function createBoard(user) {
     const board = document.createElement('div');
     board.classList.add('game-board');
     board.id = user;
@@ -48,9 +61,11 @@
       boardContainer.append(board);
     }
   }
-  renderBoard("player");
-  renderBoard("cpu");
-  // This will be the HUD for the remaining ships of both the player and CPU
+
+  function createShip() {
+
+  }
+
   function renderScores() {
 
   }
