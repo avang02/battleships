@@ -88,6 +88,7 @@ h1 {
 }
 
 .player-ships {
+    width: 50vmin;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -97,6 +98,7 @@ h1 {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    margin-bottom: 2vmin;
 }
 
 #carrier {

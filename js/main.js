@@ -1,13 +1,18 @@
   /*----- constants -----*/
   const WIDTH = 10;
   const HEIGHT = 10;
-
   const ALPHANUMS = "abcdefghij";
   const NUMS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-  const boardContainer = document.querySelector('.board-container');
+
+  const flipButton = document.querySelector('#flip-btn');
+  const playerShips = document.querySelector('.player-ships');
   const pAlphaNumContainer = document.querySelector('.player-alpha-nums');
   const cAlphaNumContainer = document.querySelector('.cpu-alpha-nums');
+  const playerBoard = document.querySelector('.player-board');
+  const cpuBoard = document.querySelector('.cpu-board');
+  const playerCells = document.querySelectorAll('.player-board div');
+  const cpuCells = document.querySelectorAll('.cpu-board div');
 
   // Class to construct ships
   class Ship {
@@ -27,22 +32,21 @@
 
   /*----- state variables -----*/
   let turns;   //Two players, two turns
-  let playerBoard;  // The player's board
-  let cpuBoard; // The CPU's board
   let winner = null; // The winner
+  let angle = 0;
 
   /*----- cached elements  -----*/
 
 
   /*----- event listeners -----*/
-
+  flipButton.addEventListener('click', flip);
 
   /*----- Main -----*/
+  cpuShipPlacement(destroyer);
+
+
+
   render();
-
-
-
-
   /*----- functions -----*/
 
   // Render's the board at start up and at current state of game
@@ -53,13 +57,12 @@
 
   // Renders two 10x10 board for player and CPU. Each board will have letter's A-J for each row and numbers 1-10 for each column
   function renderBoard(user) {
-    createBoard("player");
-    createBoard("cpu")
+    createBoard("player", playerBoard);
+    createBoard("cpu", cpuBoard);
   }
 
-
   // This will be the HUD for the remaining ships of both the player and CPU
-  function createBoard(user) {
+  function createBoard(user, userBoard) {
     const board = document.createElement('div');
     board.classList.add('game-board');
     board.id = user;
@@ -71,15 +74,14 @@
       for(let j = 0; j < HEIGHT; j++) {
         const cell = document.createElement('div');
         cell.classList.add('cell')
-        cellID += (j+1).toString();
+        cellID += (j).toString();
         cell.id = cellID;
         cellID = cellID.slice(0, -1);
         board.append(cell);
       }
-      boardContainer.append(board);
+      userBoard.append(board);
     }
   }
-
 // Renders the ALPHA-NUMERIC IDs of the grid
   function renderAlphaNums() {
     for(let i = 0; i < WIDTH; i++) {
@@ -94,4 +96,38 @@
     }
   }
 
+
+  // Button for swapping from horizontal/vertical
+  function flip() {
+    const pShips = Array.from(playerShips.children);
+    angle === 0 ? angle = 90 : angle = 0;
+    for(let i = 0; i < pShips.length-1; i++) {
+      pShips[i].style.transform = `rotate(${angle}deg)`;
+    }
+    
+  }
+  // CPU logic for placing ships
+  function cpuShipPlacement(ship) {
+    let randomBool = Math.random() < 0.5;
+    let isHorizontal = true;
+    let randomXNum = Math.floor(Math.random() * WIDTH);
+    let randomYNum = Math.floor(Math.random() * HEIGHT)
+    let xCoordinate = ALPHANUMS.charAt(randomXNum);
+    let yCoordinate = randomYNum;
+    let randStartPos = '';
+
+    let shipCells = [];
+
+    for(let i = 0; i < ship.length; i++) {
+      if(isHorizontal) {
+        randStartPos = randStartPos + ALPHANUMS.charAt(randomXNum+i) + yCoordinate;
+        shipCells.push(cpuCells.getElementById(randStartPos.toString()));
+        randStartPos = '';
+      }
+    }
+    console.log(shipCells)
+  //   shipCells.forEach(cell=> {
+  //     cell.classList.add(ship.name);
+  //   })
+  }
   
