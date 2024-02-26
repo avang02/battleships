@@ -18,9 +18,51 @@ header {
     color: darkgray;
 }
 
-.board-container {
-    display: flex;
+
+h1 {
+    margin: 0 auto;
+}
+#info {
     width: 110vmin;
+    display: flex;
+    justify-content: space-between;
+}
+#player-display {
+    display: flex;
+    justify-content: center;
+}
+#cpu-display {
+    display: flex;
+    justify-content: center;
+}
+.alpha-nums {
+    width: 110vmin;
+    display: flex;
+    justify-content: space-between;
+}
+.player-alpha-nums {
+    width: 50vmin;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+}
+.player-alpha-nums > div {
+    display: flex;
+}
+.cpu-alpha-nums {
+    width: 50vmin;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+}
+.cpu-alpha-nums {
+    display: flex;
+}
+
+
+.board-container {
+    width: 110vmin;
+    display: flex;
     justify-content: space-between;
 }
 
