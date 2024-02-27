@@ -10,7 +10,6 @@
   const cAlphaNumContainer = document.querySelector('.cpu-alpha-nums');
   const playerBoard = document.querySelector('.player-board');
   const cpuBoard = document.querySelector('.cpu-board');
-  const playerCells = document.querySelectorAll('.player-board div');
   const playerOptionShips = Array.from(playerShips.children);
 
   // Class to construct ships
@@ -125,33 +124,29 @@
     let xCoordinate = randomXNum;
     let yCoordinate = ALPHANUMS.charAt(randomYNum);
     let randStartPos = '';
-
     let shipCells = [];
+    
     for(let i = 0; i < ship.length; i++) {
       if(isHorizontal) {
         if(xCoordinate <= (WIDTH-ship.length+1)){
           randStartPos = randStartPos + (xCoordinate+i) + yCoordinate;
           shipCells.push(document.getElementById(`${randStartPos}`));
-          console.log(`${randStartPos}`);
           randStartPos = '';
         } else {
           xCoordinate = (WIDTH-ship.length+1);
           randStartPos = randStartPos + (xCoordinate+i) + yCoordinate;
           shipCells.push(document.getElementById(`${randStartPos}`));
-          console.log(`${randStartPos}`);
           randStartPos = '';
         }
       } else {
         if(randomYNum <= (HEIGHT-ship.length)){
           randStartPos = randStartPos + xCoordinate + ALPHANUMS.charAt(randomYNum+i);
           shipCells.push(document.getElementById(`${randStartPos}`));
-          console.log(`${randStartPos}`);
           randStartPos = '';
         } else {
           randomYNum = (HEIGHT-ship.length);
           randStartPos = randStartPos + xCoordinate + ALPHANUMS.charAt(randomYNum+i);
           shipCells.push(document.getElementById(`${randStartPos}`));
-          console.log(`${randStartPos}`);
           randStartPos = '';
         }
       }
@@ -168,12 +163,23 @@
     }
   }
 
+
+
+  function playerShipPlacement(ship, startId) {
+    let isHorizontal = angle ===0;
+    let shipCells = [];
+    for(let i = 0; i < ship.length; i++) {
+          shipCells.push(document.getElementById(`${startId}`));
+        }
+  }
+
   // Drag Player Ships
+  // const playerCells = document.querySelectorAll('.player-board div');
   // playerCells.forEach(cell=> {
   //   cell.addEventListener('dragover', dragOver);
   //   cell.addEventListener('drop', shipDrop);
   // })
-  // playerOptionShips.forEach(ship=> ship.addEventListener('dragstart', dragStart));
+  // playerOptionShips.forEach(ship=> ship.addEventListener('dragstart',s dragStart));
   // function dragStart(et) {
   //   draggedship = et.target;
   // }
@@ -185,5 +191,8 @@
 
   // function shipDrop(et) {
   //   const pStartId = et.target.id;
-  //   const ship = 
+  //   console.log(pStartId);
+  //   const ship = pShips[draggedship.id];
+  //   console.log(pships)
+  //   playerShipPlacement(ship, pStartId);
   // }
