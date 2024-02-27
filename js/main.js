@@ -4,7 +4,6 @@
   const ALPHANUMS = "abcdefghij";
   const NUMS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-
   const flipButton = document.querySelector('#flip-btn');
   const playerShips = document.querySelector('.player-ships');
   const pAlphaNumContainer = document.querySelector('.player-alpha-nums');
@@ -12,7 +11,7 @@
   const playerBoard = document.querySelector('.player-board');
   const cpuBoard = document.querySelector('.cpu-board');
   const playerCells = document.querySelectorAll('.player-board div');
-  const cpuCells = document.querySelectorAll('.cpu-board div');
+  const playerOptionShips = Array.from(playerShips.children);
 
   // Class to construct ships
   class Ship {
@@ -34,6 +33,7 @@
   let turns;   //Two players, two turns
   let winner = null; // The winner
   let angle = 0;
+  let draggedship;  // The player's ship being dragged onto board
 
   /*----- cached elements  -----*/
 
@@ -42,56 +42,66 @@
   flipButton.addEventListener('click', flip);
 
   /*----- Main -----*/
-  cpuShipPlacement(destroyer);
-
-
 
   render();
   /*----- functions -----*/
 
   // Render's the board at start up and at current state of game
   function render() {
-    renderBoard();
     renderAlphaNums();
+    renderBoard();
   }
 
   // Renders two 10x10 board for player and CPU. Each board will have letter's A-J for each row and numbers 1-10 for each column
-  function renderBoard(user) {
-    createBoard("player", playerBoard);
-    createBoard("cpu", cpuBoard);
+  function renderBoard() {
+    renderPlayerBoard();
+    renderCpuBoard();
   }
 
-  // This will be the HUD for the remaining ships of both the player and CPU
-  function createBoard(user, userBoard) {
-    const board = document.createElement('div');
-    board.classList.add('game-board');
-    board.id = user;
-
+  // Renders the board for the CPU
+  function renderCpuBoard() {
+    let cellID = '';
+    for(let i = 0; i < WIDTH; i++) {
+      cellID = '';
+      for(let j = HEIGHT+1; j > 1; j--) {
+        const cell = document.createElement('div');
+        cellID = (j-1).toString();
+        cellID += ALPHANUMS.charAt(i);
+        cell.id = cellID;
+        cpuBoard.appendChild(cell);
+      }
+    }
+    cShips.forEach(ship => {
+      cpuShipPlacement(ship)
+    });
+  }
+  // Renders the board for the player
+  function renderPlayerBoard() {
     let cellID = '';
     for(let i = 0; i < WIDTH; i++) {
       cellID = '';
       cellID += ALPHANUMS.charAt(i);
       for(let j = 0; j < HEIGHT; j++) {
         const cell = document.createElement('div');
-        cell.classList.add('cell')
-        cellID += (j).toString();
+        cellID += (j+1).toString();
         cell.id = cellID;
-        cellID = cellID.slice(0, -1);
-        board.append(cell);
+        cellID = ALPHANUMS.charAt(i);
+        playerBoard.appendChild(cell);
       }
-      userBoard.append(board);
     }
   }
+
+
 // Renders the ALPHA-NUMERIC IDs of the grid
   function renderAlphaNums() {
     for(let i = 0; i < WIDTH; i++) {
       const alphaNum = document.createElement('div');
-      alphaNum.innerHTML = `<h2>${ALPHANUMS.charAt(i).toUpperCase()}</h2>`
+      alphaNum.innerHTML = `<h2>${NUMS[i]}</h2>`
       pAlphaNumContainer.append(alphaNum)
     }
     for(let i = WIDTH-1; i > -1; i--) {
       const alphaNum = document.createElement('div');
-      alphaNum.innerHTML = `<h2>${ALPHANUMS.charAt(i).toUpperCase()}</h2>`
+      alphaNum.innerHTML = `<h2>${NUMS[i]}</h2>`
       cAlphaNumContainer.append(alphaNum)
     }
   }
@@ -109,25 +119,71 @@
   // CPU logic for placing ships
   function cpuShipPlacement(ship) {
     let randomBool = Math.random() < 0.5;
-    let isHorizontal = true;
-    let randomXNum = Math.floor(Math.random() * WIDTH);
+    let isHorizontal = randomBool;
+    let randomXNum = Math.floor(Math.random() * WIDTH + 1);
     let randomYNum = Math.floor(Math.random() * HEIGHT)
-    let xCoordinate = ALPHANUMS.charAt(randomXNum);
-    let yCoordinate = randomYNum;
+    let xCoordinate = randomXNum;
+    let yCoordinate = ALPHANUMS.charAt(randomYNum);
     let randStartPos = '';
 
     let shipCells = [];
-
     for(let i = 0; i < ship.length; i++) {
       if(isHorizontal) {
-        randStartPos = randStartPos + ALPHANUMS.charAt(randomXNum+i) + yCoordinate;
-        shipCells.push(cpuCells.getElementById(randStartPos.toString()));
-        randStartPos = '';
+        if(xCoordinate <= (WIDTH-ship.length+1)){
+          randStartPos = randStartPos + (xCoordinate+i) + yCoordinate;
+          shipCells.push(document.getElementById(`${randStartPos}`));
+          console.log(`${randStartPos}`);
+          randStartPos = '';
+        } else {
+          xCoordinate = (WIDTH-ship.length+1);
+          randStartPos = randStartPos + (xCoordinate+i) + yCoordinate;
+          shipCells.push(document.getElementById(`${randStartPos}`));
+          console.log(`${randStartPos}`);
+          randStartPos = '';
+        }
+      } else {
+        if(randomYNum <= (HEIGHT-ship.length)){
+          randStartPos = randStartPos + xCoordinate + ALPHANUMS.charAt(randomYNum+i);
+          shipCells.push(document.getElementById(`${randStartPos}`));
+          console.log(`${randStartPos}`);
+          randStartPos = '';
+        } else {
+          randomYNum = (HEIGHT-ship.length);
+          randStartPos = randStartPos + xCoordinate + ALPHANUMS.charAt(randomYNum+i);
+          shipCells.push(document.getElementById(`${randStartPos}`));
+          console.log(`${randStartPos}`);
+          randStartPos = '';
+        }
       }
     }
-    console.log(shipCells)
-  //   shipCells.forEach(cell=> {
-  //     cell.classList.add(ship.name);
-  //   })
+    const notTaken = shipCells.every(cell => !cell.classList.contains('taken'));
+
+    if(notTaken){
+    shipCells.forEach(cell=> {
+      cell.classList.add(ship.name);
+      cell.classList.add('taken');
+    })
+    } else {
+      cpuShipPlacement(ship);
+    }
   }
+
+  // Drag Player Ships
+  // playerCells.forEach(cell=> {
+  //   cell.addEventListener('dragover', dragOver);
+  //   cell.addEventListener('drop', shipDrop);
+  // })
+  // playerOptionShips.forEach(ship=> ship.addEventListener('dragstart', dragStart));
+  // function dragStart(et) {
+  //   draggedship = et.target;
+  // }
+
+  // function dragOver(et) {
+  //   et.preventDefault();
   
+  // }
+
+  // function shipDrop(et) {
+  //   const pStartId = et.target.id;
+  //   const ship = 
+  // }

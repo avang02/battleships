@@ -73,11 +73,50 @@ h1 {
     flex-wrap: wrap;
     background-color: lightblue;
 }
+.player-board {
+    width: 50vmin;
+    height: 50vmin;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: lightblue;
+}
+.cpu-board {
+    width: 50vmin;
+    height: 50vmin;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: lightblue;
+}
 
-.cell {
+.cpu-board > div {
     width: 5vmin;
     height: 5vmin;
-    border: 0.1px solid
+    border: 0.1px solid;
+}
+.cpu-board > .carrier{
+    background-color: yellow;
+}
+.cpu-board > .battleship {
+    background-color: blueviolet;
+}
+.cpu-board > .destroyer {
+    background-color: chartreuse;
+}
+.cpu-board > .submarine {
+    background-color: brown;
+}
+.cpu-board > .patrol-boat {
+    background-color: firebrick;
+}
+
+.player-board > div {
+    width: 5vmin;
+    height: 5vmin;
+    border: 0.1px solid;
+}
+
+.player-board > .destroyer {
+    background-color: chartreuse;
 }
 
 .ship-container {
