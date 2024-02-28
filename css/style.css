@@ -211,12 +211,27 @@ h1 {
     background-color: firebrick;
 }
 
-#info {
+.info {
     width: 110vmin;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-content: center;
 }
 #game-start {
     width: 12vmin;
     height: 2vmin;
+}
+
+.cpu-board > .hit {
+    background-color: red;
+}
+.cpu-board > .miss {
+    background-color: gray;
+}
+
+.player-board > .hit {
+    background-color: red;
+}
+.player-board > .miss {
+    background-color: gray;
 }

@@ -10,6 +10,8 @@
   const cAlphaNumContainer = document.querySelector('.cpu-alpha-nums');
   const playerBoard = document.querySelector('.player-board');
   const cpuBoard = document.querySelector('.cpu-board');
+  const startButton = document.querySelector('#game-start');
+  const getInfoEl = document.getElementById('info');
 
   // Class to construct ships
   class Ship {
@@ -33,13 +35,15 @@
   let angle = 0;
   let draggedship;  // The player's ship being dragged onto board
   let dropped; // Boolean for ships being dropped
+  let playerHits = [];  // Ships that the player hits
+  let cpuHits = []; // Ships the CPU hits
 
   /*----- cached elements  -----*/
 
 
   /*----- event listeners -----*/
   flipButton.addEventListener('click', flip);
-
+  startButton.addEventListener('click', startGame)
 
   /*----- Main -----*/
 
@@ -187,7 +191,6 @@
     if (dropped) {
       draggedship.remove();
     }
-    console.log(playerShips.children.length);
   }
 
   function playerShipPlacement(ship, startId) {
@@ -236,8 +239,68 @@
 
   function startGame() {
     if(playerShips.children.length === 1) {
-
+      const cpuCells = document.querySelectorAll('.cpu-board div');
+      cpuCells.forEach(cell => cell.addEventListener('click', shot));
     } else {
-      
+      return;
+    }
+  }
+  function shot(et) {
+    if(winner === null) {
+      if(et.target.classList.contains('hit') || et.target.classList.contains('miss')){
+        et.target.removeEventListener('click', shot);
+        return;
+      } else if(et.target.classList.contains('taken')) {
+        et.target.classList.add('hit');
+        let hitCpuShips = Array.from(et.target.classList);
+        hitCpuShips = hitCpuShips.filter(hit => hit !== 'hit');
+        hitCpuShips = hitCpuShips.filter(taken => taken !== 'taken');
+        playerHits.push(hitCpuShips);
+        console.log(playerHits.length);
+      }
+      if(!et.target.classList.contains('taken')) {
+        et.target.classList.add('miss');
+      }
+    }
+    checkWinner();
+    turn = -1;
+    const cpuCells = document.querySelectorAll('.cpu-board div');
+    cpuCells.forEach(cell => cell.removeEventListener('click', shot));
+    setTimeout(cpuTurn, 250)
+  }
+
+  function cpuTurn() {
+    if(winner === null) {
+      const playerCells = document.querySelectorAll('.player-board div');
+      let randomXNum = Math.floor(Math.random() * WIDTH + 1);
+      let randomYNum = Math.floor(Math.random() * HEIGHT)
+      let xCoordinate = randomXNum;
+      let yCoordinate = ALPHANUMS.charAt(randomYNum);
+      let randStartPos = yCoordinate + xCoordinate;
+      const shootCell = document.getElementById(randStartPos);
+
+      if(shootCell.classList.contains('miss') || shootCell.classList.contains('hit')) {
+        cpuTurn()
+      } else if(shootCell.classList.contains('taken') && !shootCell.classList.contains('hit')) {
+        shootCell.classList.add('hit');
+        let hitPlayerShips = Array.from(shootCell.classList);
+        hitPlayerShips = hitPlayerShips.filter(hit => hit !== 'hit');
+        hitPlayerShips = hitPlayerShips.filter(taken => taken !== 'taken');
+        cpuHits.push(hitPlayerShips);
+        console.log(cpuHits.length);
+      } else {
+        shootCell.classList.add('miss');
+      }
+    }
+    checkWinner();
+    turn = 1;
+    const cpuCells = document.querySelectorAll('.cpu-board div');
+    cpuCells.forEach(cell => cell.addEventListener('click', shot));
+  }
+  function checkWinner() {
+    if(playerHits.lenght === 17) {
+      getInfoEl.innerText = "Player is the winner!" ;
+    } else if(cpuHits === 17) {
+      getInfoEl.innerText = "CPU is the winner!";
     }
   }
