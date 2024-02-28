@@ -4,17 +4,6 @@
   const ALPHANUMS = "abcdefghij";
   const NUMS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-  const flipButton = document.querySelector('#flip-btn');
-  const playerShips = document.querySelector('.player-ships');
-  const pNumContainer = document.querySelector('.player-nums');
-  const cNumContainer = document.querySelector('.cpu-nums');
-  const pAlphaNumContainer = document.querySelector('.player-alpha-nums');
-  const cAlphaNumContainer = document.querySelector('.cpu-alpha-nums');
-  const playerBoard = document.querySelector('.player-board');
-  const cpuBoard = document.querySelector('.cpu-board');
-  const startButton = document.querySelector('#game-start');
-  const getInfoEl = document.getElementById('info');
-
   // Class to construct ships
   class Ship {
     constructor(name, length) {
@@ -41,7 +30,17 @@
   let cpuHits = []; // Ships the CPU hits
 
   /*----- cached elements  -----*/
-
+  const flipButton = document.querySelector('#flip-btn');
+  const getPlayerShipEl = document.querySelector('.player-ships section');
+  const playerShips = document.querySelector('.player-ships');
+  const pNumContainer = document.querySelector('.player-nums');
+  const cNumContainer = document.querySelector('.cpu-nums');
+  const pAlphaNumContainer = document.querySelector('.player-alpha-nums');
+  const cAlphaNumContainer = document.querySelector('.cpu-alpha-nums');
+  const playerBoard = document.querySelector('.player-board');
+  const cpuBoard = document.querySelector('.cpu-board');
+  const startButton = document.querySelector('#game-start');
+  const getInfoEl = document.getElementById('info');
 
   /*----- event listeners -----*/
   flipButton.addEventListener('click', flip);
@@ -61,6 +60,7 @@
 
   // Renders two 10x10 board for player and CPU. Each board will have letter's A-J for each row and numbers 1-10 for each column
   function renderBoard() {
+    renderPlayerShips();
     renderPlayerBoard();
     renderCpuBoard();
   }
@@ -97,6 +97,9 @@
       }
     }
   }
+  function renderPlayerShips(){
+    getPlayerShipEl.changeName = 'horizontal';
+  }
 
 
 // Renders the ALPHA-NUMERIC IDs of the grid
@@ -129,8 +132,15 @@
   // Button for swapping from horizontal/vertical
   function flip() {
     const pShips = Array.from(playerShips.children);
-    angle === 0 ? angle = 90 : angle = 0;
-    for(let i = 0; i < pShips.length-1; i++) {
+    if(angle === 0) {
+      getPlayerShipEl.className = 'vertical';
+      angle = 90;
+    } else {
+      getPlayerShipEl.className = 'horizontal';
+      angle = 0;
+    }
+    console.log(angle);
+    for(let i = 1; i < pShips.length; i++) {
       pShips[i].style.transform = `rotate(${angle}deg)`;
     }
     
@@ -253,7 +263,7 @@
   }
 
   function startGame() {
-    if(playerShips.children.length === 1) {
+    if(getPlayerShipEl.children.length === 0) {
       const cpuCells = document.querySelectorAll('.cpu-board div');
       cpuCells.forEach(cell => cell.addEventListener('click', shot));
     } else {

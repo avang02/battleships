@@ -139,6 +139,7 @@ h1 {
 .player-board > .patrol-boat {
     background-color: firebrick;
 }
+
 .cpu-board {
     width: 50vmin;
     height: 50vmin;
@@ -188,31 +189,68 @@ h1 {
     flex-direction: column;
     justify-content: flex-start;
 }
-.player-ships > .carrier {
+.player-ships > .horizontal {
+    width: 25vmin;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+}
+.horizontal > .carrier {
     height: 5vmin;
     width: 25vmin;
     margin-bottom: 5px;
     background-color: yellow;
 }
-.player-ships > .battleship {
+.horizontal > .battleship {
     height: 5vmin;
     width: 20vmin;
     margin-bottom: 5px;
     background-color: blueviolet;
 }
-.player-ships > .destroyer {
+.horizontal > .destroyer {
     height: 5vmin;
     width: 15vmin;
     margin-bottom: 5px;
     background-color: chartreuse;
 }
-.player-ships > .submarine {
+.horizontal > .submarine {
     height: 5vmin;
     width: 15vmin;
     margin-bottom: 5px;
     background-color: brown;
 }
-.player-ships > .patrol-boat {
+.horizontal > .patrol-boat {
+    height: 5vmin;
+    width: 10vmin;
+    margin-bottom: 5px;
+    background-color: firebrick;
+}
+.vertical > .carrier {
+    height: 5vmin;
+    width: 25vmin;
+    margin-bottom: 5px;
+    background-color: yellow;
+}
+.vertical > .battleship {
+    height: 5vmin;
+    width: 20vmin;
+    margin-bottom: 5px;
+    background-color: blueviolet;
+}
+.vertical > .destroyer {
+    height: 5vmin;
+    width: 15vmin;
+    margin-bottom: 5px;
+    background-color: chartreuse;
+}
+.vertical > .submarine {
+    height: 5vmin;
+    width: 15vmin;
+    margin-bottom: 5px;
+    background-color: brown;
+}
+.vertical > .patrol-boat {
     height: 5vmin;
     width: 10vmin;
     margin-bottom: 5px;
