@@ -298,9 +298,9 @@
     cpuCells.forEach(cell => cell.addEventListener('click', shot));
   }
   function checkWinner() {
-    if(playerHits.lenght === 17) {
+    if(playerHits.length === 17) {
       getInfoEl.innerText = "Player is the winner!" ;
-    } else if(cpuHits === 17) {
+    } else if(cpuHits.length === 17) {
       getInfoEl.innerText = "CPU is the winner!";
     }
   }
