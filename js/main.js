@@ -6,6 +6,8 @@
 
   const flipButton = document.querySelector('#flip-btn');
   const playerShips = document.querySelector('.player-ships');
+  const pNumContainer = document.querySelector('.player-nums');
+  const cNumContainer = document.querySelector('.cpu-nums');
   const pAlphaNumContainer = document.querySelector('.player-alpha-nums');
   const cAlphaNumContainer = document.querySelector('.cpu-alpha-nums');
   const playerBoard = document.querySelector('.player-board');
@@ -52,6 +54,7 @@
 
   // Render's the board at start up and at current state of game
   function render() {
+    renderNums();
     renderAlphaNums();
     renderBoard();
   }
@@ -97,16 +100,28 @@
 
 
 // Renders the ALPHA-NUMERIC IDs of the grid
-  function renderAlphaNums() {
+  function renderNums() {
     for(let i = 0; i < WIDTH; i++) {
-      const alphaNum = document.createElement('div');
-      alphaNum.innerHTML = `<h2>${NUMS[i]}</h2>`;
-      pAlphaNumContainer.append(alphaNum)
+      const num = document.createElement('div');
+      num.innerHTML = `<h2>${NUMS[i]}</h2>`;
+      pNumContainer.append(num);
     }
     for(let i = WIDTH-1; i > -1; i--) {
-      const alphaNum = document.createElement('div');
-      alphaNum.innerHTML = `<h2>${NUMS[i]}</h2>`;
-      cAlphaNumContainer.append(alphaNum)
+      const num = document.createElement('div');
+      num.innerHTML = `<h2>${NUMS[i]}</h2>`;
+      cNumContainer.append(num);
+    }
+  }
+  function renderAlphaNums() {
+    for(let i = 0; i < HEIGHT; i++) {
+      const num = document.createElement('div');
+      num.innerHTML = `<h2>${ALPHANUMS.charAt(i).toUpperCase()}</h2>`
+      pAlphaNumContainer.append(num);
+    }
+    for(let i = 0; i < HEIGHT; i++) {
+      const num = document.createElement('div');
+      num.innerHTML = `<h2>${ALPHANUMS.charAt(i).toUpperCase()}</h2>`
+      cAlphaNumContainer.append(num);
     }
   }
 

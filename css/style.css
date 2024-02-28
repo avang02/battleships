@@ -34,48 +34,93 @@ h1 {
     display: flex;
     justify-content: center;
 }
-.alpha-nums {
+.nums {
     width: 110vmin;
+    height: 5vmin;
     display: flex;
     justify-content: space-between;
 }
+.player-nums {
+    width: 50vmin;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+}
+.player-nums > div {
+    width: 5vmin;
+    height: 5vmin;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+.cpu-nums {
+    width: 50vmin;
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+}
+.cpu-nums > div {
+    width: 5vmin;
+    height: 5vmin;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
 .player-alpha-nums {
-    width: 50vmin;
-    display: flex;
-    justify-content: space-between;
-    align-content: center;
-}
-.player-alpha-nums > div {
-    display: flex;
-}
-.cpu-alpha-nums {
-    width: 50vmin;
-    display: flex;
-    justify-content: space-between;
-    align-content: center;
-}
-.cpu-alpha-nums {
-    display: flex;
-}
-
-
-.board-container {
-    width: 110vmin;
-    display: flex;
-    justify-content: space-between;
-}
-
-.game-board {
-    width: 50vmin;
+    width: 5vmin;
     height: 50vmin;
     display: flex;
-    flex-wrap: wrap;
-    background-color: lightblue;
+    flex-direction: column;
 }
+.player-alpha-nums > div {
+    width: 5vmin;
+    height: 5vmin;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.cpu-alpha-nums {
+    width: 5vmin;
+    height: 50vmin;
+    display: flex;
+    flex-direction: column;
+}
+.cpu-alpha-nums > div {
+    width: 5vmin;
+    height: 5vmin;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.board-container {
+    width: 120vmin;
+    display: flex;
+    justify-content: space-between;
+}
+.board-container > section {
+    width: 60vmin;
+    height: 50vmin;
+    display: flex;
+}
+.player-container {
+    display: flex;
+    justify-content: flex-start;
+}
+.cpu-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
 .player-board {
     width: 50vmin;
     height: 50vmin;
     display: flex;
+    justify-content: flex-start;
     flex-wrap: wrap;
     background-color: lightblue;
 }
@@ -98,6 +143,7 @@ h1 {
     width: 50vmin;
     height: 50vmin;
     display: flex;
+    justify-content: flex-end;
     flex-wrap: wrap;
     background-color: lightblue;
 }
