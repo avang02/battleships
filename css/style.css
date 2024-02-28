@@ -18,11 +18,10 @@ header {
     color: darkgray;
 }
 
-
 h1 {
     margin: 0 auto;
 }
-#info {
+#board-header {
     width: 110vmin;
     display: flex;
     justify-content: space-between;
@@ -79,6 +78,21 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     background-color: lightblue;
+}
+.player-board > .carrier{
+    background-color: yellow;
+}
+.player-board > .battleship {
+    background-color: blueviolet;
+}
+.player-board > .destroyer {
+    background-color: chartreuse;
+}
+.player-board > .submarine {
+    background-color: brown;
+}
+.player-board > .patrol-boat {
+    background-color: firebrick;
 }
 .cpu-board {
     width: 50vmin;
@@ -195,4 +209,14 @@ h1 {
     width: 10vmin;
     margin-bottom: 5px;
     background-color: firebrick;
+}
+
+#info {
+    width: 110vmin;
+    display: flex;
+    justify-content: center;
+}
+#game-start {
+    width: 12vmin;
+    height: 2vmin;
 }

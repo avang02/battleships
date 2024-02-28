@@ -10,7 +10,6 @@
   const cAlphaNumContainer = document.querySelector('.cpu-alpha-nums');
   const playerBoard = document.querySelector('.player-board');
   const cpuBoard = document.querySelector('.cpu-board');
-  const playerOptionShips = Array.from(playerShips.children);
 
   // Class to construct ships
   class Ship {
@@ -29,16 +28,18 @@
   const cShips = [carrier, battleship,  destroyer, submarine, patrolBoat];
 
   /*----- state variables -----*/
-  let turns;   //Two players, two turns
+  let turn;   //Two players, two turns
   let winner = null; // The winner
   let angle = 0;
   let draggedship;  // The player's ship being dragged onto board
+  let dropped; // Boolean for ships being dropped
 
   /*----- cached elements  -----*/
 
 
   /*----- event listeners -----*/
   flipButton.addEventListener('click', flip);
+
 
   /*----- Main -----*/
 
@@ -95,12 +96,12 @@
   function renderAlphaNums() {
     for(let i = 0; i < WIDTH; i++) {
       const alphaNum = document.createElement('div');
-      alphaNum.innerHTML = `<h2>${NUMS[i]}</h2>`
+      alphaNum.innerHTML = `<h2>${NUMS[i]}</h2>`;
       pAlphaNumContainer.append(alphaNum)
     }
     for(let i = WIDTH-1; i > -1; i--) {
       const alphaNum = document.createElement('div');
-      alphaNum.innerHTML = `<h2>${NUMS[i]}</h2>`
+      alphaNum.innerHTML = `<h2>${NUMS[i]}</h2>`;
       cAlphaNumContainer.append(alphaNum)
     }
   }
@@ -163,36 +164,80 @@
     }
   }
 
-
-
-  function playerShipPlacement(ship, startId) {
-    let isHorizontal = angle ===0;
-    let shipCells = [];
-    for(let i = 0; i < ship.length; i++) {
-          shipCells.push(document.getElementById(`${startId}`));
-        }
+  // Drag Player Ships
+  const playerCells = document.querySelectorAll('.player-board div');
+  const playerOptionShips = Array.from(playerShips.children);
+  playerCells.forEach(cell=> {
+    cell.addEventListener('dragover', dragOver);
+    cell.addEventListener('drop', shipDrop);
+  })
+  playerOptionShips.forEach(ship=> ship.addEventListener('dragstart', dragStart));
+  
+  function dragStart(et) {
+    dropped = false;
+    draggedship = et.target;
+  }
+  function dragOver(et) {
+    et.preventDefault();
+  }
+  function shipDrop(et) {
+    const pStartId = et.target.id;
+    const ship = pShips[draggedship.id];
+    playerShipPlacement(ship, pStartId, draggedship.id);
+    if (dropped) {
+      draggedship.remove();
+    }
+    console.log(playerShips.children.length);
   }
 
-  // Drag Player Ships
-  // const playerCells = document.querySelectorAll('.player-board div');
-  // playerCells.forEach(cell=> {
-  //   cell.addEventListener('dragover', dragOver);
-  //   cell.addEventListener('drop', shipDrop);
-  // })
-  // playerOptionShips.forEach(ship=> ship.addEventListener('dragstart',s dragStart));
-  // function dragStart(et) {
-  //   draggedship = et.target;
-  // }
+  function playerShipPlacement(ship, startId) {
+    startId.toString();
+    let isHorizontal = angle === 0;
+    let index = ALPHANUMS.indexOf(startId[0]);
+    let xCoordinate = startId.substr(1, startId.length-1);
+    let yCoordinate = ALPHANUMS[index];
+    let newStartId = yCoordinate + xCoordinate;
+    let xIsValid = xCoordinate <= WIDTH-ship.length+1;
+    let yIsValid = index <= HEIGHT-ship.length;
+    let shipCells = [];
 
-  // function dragOver(et) {
-  //   et.preventDefault();
-  
-  // }
+    for(let i = 0; i < ship.length; i++) {
+      if(isHorizontal){
+        if(xIsValid){
+          newStartId = yCoordinate + (Number(xCoordinate)+i);
+          shipCells.push(document.getElementById(newStartId));
+        } else {
+          xCoordinate = WIDTH-ship.length+1;
+          newStartId = yCoordinate + (Number(xCoordinate)+i);
+          shipCells.push(document.getElementById(newStartId));
+        }
+      } else {
+        if(yIsValid){
+          newStartId = (ALPHANUMS[index+i]) + xCoordinate;
+          shipCells.push(document.getElementById(newStartId));
+        } else {
+          index = HEIGHT-ship.length;
+          newStartId = (ALPHANUMS[index+i]) + xCoordinate;
+          shipCells.push(document.getElementById(newStartId));
+        }
+      }
+    }
+    const notTaken = shipCells.every(cell=> !cell.classList.contains('taken'));
+    if(notTaken) {
+      shipCells.forEach(cell => {
+        cell.classList.add(ship.name);
+        cell.classList.add('taken');
+        dropped = true;
+      })
+    } else {
+      return;
+    }
+  }
 
-  // function shipDrop(et) {
-  //   const pStartId = et.target.id;
-  //   console.log(pStartId);
-  //   const ship = pShips[draggedship.id];
-  //   console.log(pships)
-  //   playerShipPlacement(ship, pStartId);
-  // }
+  function startGame() {
+    if(playerShips.children.length === 1) {
+
+    } else {
+      
+    }
+  }
