@@ -370,6 +370,7 @@ h1 {
     background-color: gray;
 }
 
+
 /* Hides the Game Over screen and displays it when button is pressed */
 .game-over {
     display: none;

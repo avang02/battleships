@@ -49,6 +49,7 @@
   startButton.addEventListener('click', startGame)
   showButton.addEventListener('click', render);
 
+  
   /*----- Main -----*/
 
   render();
