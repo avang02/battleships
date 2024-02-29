@@ -15,10 +15,10 @@ A game where player plays against computer to see who sinks the otherside's batt
 
 # Getting Started
 
-[Click to View Project Planning](your Trello url here)
-[Click to Play Connect Four!](your deployment url here)
+[Click to Play Battleships!]https://avang02.github.io/battleships/
 
 # Next Steps
 
-- Future enhancement one...
-- Future enhancement two... 
+- Add win condition
+- Add Game Over screen
+- Add sounds

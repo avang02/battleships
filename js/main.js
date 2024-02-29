@@ -51,6 +51,7 @@
 
   /*----- Main -----*/
 
+  render();
   /*----- functions -----*/
 
   // Render's the board at start up and at current state of game
