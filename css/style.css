@@ -3,7 +3,9 @@
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'simpson', Arial;
+    color: rgb(223, 236, 30);
+    background-color: black;
     height: 100vh;
     max-width: 100%;
     margin: 0;
@@ -13,19 +15,36 @@ body {
     align-items: center;
 }
 
+.hide {
+    font-family: 'simpson', Arial;
+    height: 100vh;
+    max-width: 100%;
+    margin: 0;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Title of game */
 header {
     font-size: 4vmin;
-    color: darkgray;
+    color: rgb(223, 236, 30);
 }
+
 
 h1 {
     margin: 0 auto;
 }
+
+/* Aligns the player and CPU's name to their respective board */
 #board-header {
     width: 110vmin;
     display: flex;
     justify-content: space-between;
 }
+
+/* Displays Player and CPU on top of their respective board */
 #player-display {
     display: flex;
     justify-content: center;
@@ -34,16 +53,21 @@ h1 {
     display: flex;
     justify-content: center;
 }
+
+/* Aligns the player's and CPU's Numeric text at the top of their respective board */
 .nums {
     width: 110vmin;
     height: 5vmin;
     display: flex;
     justify-content: space-between;
+    align-content: center;
 }
+
+/* Displays the NUMBERS at the top for both the player and CPU */
 .player-nums {
     width: 50vmin;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-content: center;
 }
 .player-nums > div {
@@ -56,7 +80,7 @@ h1 {
 .cpu-nums {
     width: 50vmin;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-content: center;
 }
 .cpu-nums > div {
@@ -67,6 +91,7 @@ h1 {
     align-content: center;
 }
 
+/* Displays the ALPHA-NUMERIC for both the player and CPU */
 .player-alpha-nums {
     width: 5vmin;
     height: 50vmin;
@@ -81,7 +106,6 @@ h1 {
     align-content: center;
     align-items: center;
 }
-
 .cpu-alpha-nums {
     width: 5vmin;
     height: 50vmin;
@@ -97,6 +121,7 @@ h1 {
     align-items: center;
 }
 
+/* This holds both the player and CPU's board */
 .board-container {
     width: 120vmin;
     display: flex;
@@ -107,6 +132,8 @@ h1 {
     height: 50vmin;
     display: flex;
 }
+
+/* Aligns the boards of the player and cpu */
 .player-container {
     display: flex;
     justify-content: flex-start;
@@ -116,6 +143,7 @@ h1 {
     justify-content: flex-end;
 }
 
+/* Creates the player's board */
 .player-board {
     width: 50vmin;
     height: 50vmin;
@@ -123,6 +151,12 @@ h1 {
     justify-content: flex-start;
     flex-wrap: wrap;
     background-color: lightblue;
+}
+.player-board > div {
+    width: 5vmin;
+    height: 5vmin;
+    color: black;
+    border: 0.1px solid;
 }
 .player-board > .carrier{
     background-color: yellow;
@@ -140,6 +174,7 @@ h1 {
     background-color: firebrick;
 }
 
+/* Creates the CPU's */
 .cpu-board {
     width: 50vmin;
     height: 50vmin;
@@ -148,10 +183,10 @@ h1 {
     flex-wrap: wrap;
     background-color: lightblue;
 }
-
 .cpu-board > div {
     width: 5vmin;
     height: 5vmin;
+    color: black;
     border: 0.1px solid;
 }
 .cpu-board > .carrier{
@@ -170,31 +205,34 @@ h1 {
     background-color: firebrick;
 }
 
-.player-board > div {
-    width: 5vmin;
-    height: 5vmin;
-    border: 0.1px solid;
-}
-
+/* Holds the player's and CPU's ships */
 .ship-container {
     display: flex;
     justify-content: space-between;
     width: 110vmin;
     margin-top: 2vmin;
 }
-
+/* Displays the player's ships and the direction of the ship it's flipped */
 .player-ships {
     width: 50vmin;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
 }
+#flip-btn {
+    width: 10vmin;
+}
 .player-ships > .horizontal {
     width: 25vmin;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-
+}
+.player-ships > .vertical {
+    height: 27vmin;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
 }
 .horizontal > .carrier {
     height: 5vmin;
@@ -257,13 +295,13 @@ h1 {
     background-color: firebrick;
 }
 
+/* Displays the ships of the CPU at the bottom of it's board */
 .cpu-ships {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     margin-bottom: 2vmin;
 }
-
 .cpu-ships > #carrier {
     height: 5vmin;
     width: 25vmin;
@@ -295,17 +333,29 @@ h1 {
     background-color: firebrick;
 }
 
+/* Style for the game information, game starting, and both the player and cpu game logic */
 .info {
     width: 110vmin;
+    height: 27vmin;
     display: flex;
     flex-direction: column;
-    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+.info > #info {
+    width: 20vmin;
+    height: 25vmin;
+    display: flex;
+    padding-top: 1vmin;
+    font-size: large;
 }
 #game-start {
     width: 12vmin;
     height: 2vmin;
+    display: flex;
+    justify-content: center;
+    align-content: center;
 }
-
 .cpu-board > .hit {
     background-color: red;
 }
@@ -318,4 +368,9 @@ h1 {
 }
 .player-board > .miss {
     background-color: gray;
+}
+
+/* Hides the Game Over screen and displays it when button is pressed */
+.game-over {
+    display: none;
 }

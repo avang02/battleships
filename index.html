@@ -5,50 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
     <script defer src="js/main.js"></script>
+    <style>
+        @font-face {
+            font-family: 'simpson';
+            src: url(fonts/Simpsonfont.ttf);
+        }
+    </style>
     <title>Battleships</title>
 </head>
+
 <body>
     <header>BATTLESHIPS</header>
-    <section id="board-header">
-        <div id="player-display"><h1>Player</h1></div>
-        <div id="cpu-display"><h1>CPU</h1></div>
-    </section>
-    <section class="nums">
-        <div class="player-nums"></div>
-        <div class="cpu-nums"></div>
-    </section>
-    <section class="board-container">
-        <section class="player-container">
-        <div class="player-alpha-nums"></div>
-        <div class="player-board"></div>
+    <button id="show-game">START</button>
+    <section class="hide">
+        <section id="board-header">
+            <div id="player-display"><h1>Player</h1></div>
+            <div id="cpu-display"><h1>CPU</h1></div>
         </section>
-        <section class="cpu-container">
-        <div class="cpu-board"></div>
-        <div class="cpu-alpha-nums"></div>
+        <section class="nums">
+            <div class="player-nums"></div>
+            <div class="cpu-nums"></div>
         </section>
-    </section>
-    <section class="ship-container">
-        <div class="player-ships">
-            <button id="flip-btn">Flip</button>
-            <section>
-                <div id="0" class="carrier" draggable="true"></div>
-                <div id="1" class="battleship" draggable="true"></div>
-                <div id="2" class="destroyer" draggable="true"></div>
-                <div id="3" class="submarine" draggable="true"></div>
-                <div id="4" class="patrol-boat" draggable="true"></div>
+        <section class="board-container">
+            <section class="player-container">
+            <div class="player-alpha-nums"></div>
+            <div class="player-board"></div>
             </section>
-        </div>
-        <div class="info">
-            <button id="game-start">START GAME</button>
-            <div id="info"></div>
-        </div>
-        <div class="cpu-ships">
-            <div id="carrier" draggable="true"></div>
-            <div id="battleship" draggable="true"></div>
-            <div id="destroyer" draggable="true"></div>
-            <div id="submarine" draggable="true"></div>
-            <div id="patrol-boat" draggable="true"></div>
-        </div>
+            <section class="cpu-container">
+            <div class="cpu-board"></div>
+            <div class="cpu-alpha-nums"></div>
+            </section>
+        </section>
+        <section class="ship-container">
+            <div class="player-ships">
+                <button id="flip-btn">Flip</button>
+                <section>
+                    <div id="0" class="carrier" draggable="true"></div>
+                    <div id="1" class="battleship" draggable="true"></div>
+                    <div id="2" class="destroyer" draggable="true"></div>
+                    <div id="3" class="submarine" draggable="true"></div>
+                    <div id="4" class="patrol-boat" draggable="true"></div>
+                </section>
+            </div>
+            <div class="info">
+                <button id="game-start">START GAME</button>
+                <div id="info">Hi</div>
+            </div>
+            <div class="cpu-ships">
+                <div id="carrier" draggable="true"></div>
+                <div id="battleship" draggable="true"></div>
+                <div id="destroyer" draggable="true"></div>
+                <div id="submarine" draggable="true"></div>
+                <div id="patrol-boat" draggable="true"></div>
+            </div>
+        </section>
     </section>
 </body>
+<footer>
+    <div class="game-over"></div>
+    <button id="try-again">Play Again</button>
+</footer>
 </html>

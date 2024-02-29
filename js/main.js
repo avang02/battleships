@@ -23,7 +23,7 @@
   /*----- state variables -----*/
   let turn;   //Two players, two turns
   let winner = null; // The winner
-  let angle = 0;
+  let angle = 0; // Direction of player's ship facing
   let draggedship;  // The player's ship being dragged onto board
   let dropped; // Boolean for ships being dropped
   let playerHits = [];  // Ships that the player hits
@@ -31,6 +31,8 @@
 
   /*----- cached elements  -----*/
   const flipButton = document.querySelector('#flip-btn');
+  const showButton = document.querySelector('#show-game');
+  const getHideEl = document.querySelector('.hide');
   const getPlayerShipEl = document.querySelector('.player-ships section');
   const playerShips = document.querySelector('.player-ships');
   const pNumContainer = document.querySelector('.player-nums');
@@ -45,14 +47,16 @@
   /*----- event listeners -----*/
   flipButton.addEventListener('click', flip);
   startButton.addEventListener('click', startGame)
+  showButton.addEventListener('click', render);
 
   /*----- Main -----*/
 
-  render();
   /*----- functions -----*/
 
   // Render's the board at start up and at current state of game
   function render() {
+    getHideEl.style.display = "flex";
+    showButton.style.display = "none";
     renderNums();
     renderAlphaNums();
     renderBoard();
@@ -98,7 +102,7 @@
     }
   }
   function renderPlayerShips(){
-    getPlayerShipEl.changeName = 'horizontal';
+    getPlayerShipEl.className = 'horizontal';
   }
 
 
