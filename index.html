@@ -19,8 +19,8 @@
     <button id="show-game">START</button>
     <section class="hide">
         <section id="board-header">
-            <div id="player-display"><h1>Player</h1></div>
-            <div id="cpu-display"><h1>CPU</h1></div>
+            <div id="player-display"><h1>Homer</h1></div>
+            <div id="cpu-display"><h1>Bart</h1></div>
         </section>
         <section class="nums">
             <div class="player-nums"></div>
@@ -49,20 +49,19 @@
             </div>
             <div class="info">
                 <button id="game-start">START GAME</button>
-                <div id="info">Hi</div>
-            </div>
-            <div class="cpu-ships">
-                <div id="carrier" draggable="true"></div>
-                <div id="battleship" draggable="true"></div>
-                <div id="destroyer" draggable="true"></div>
-                <div id="submarine" draggable="true"></div>
-                <div id="patrol-boat" draggable="true"></div>
+                <div id="info"></div>
             </div>
         </section>
     </section>
 </body>
-<footer>
-    <div class="game-over"></div>
-    <button id="try-again">Play Again</button>
+<footer class="game-over-screen">
+    <div class="game-over">
+        <h1>GAME OVER</h1>
+        <h2 class="winner"></h2>
+        <img id="homer" src="https://i.imgur.com/JD52Pcl.png">
+        <img id="bart" src="https://i.imgur.com/m9RhKAM.png">
+        <button id="try-again">Play Again</button>
+    </div>
+    
 </footer>
 </html>

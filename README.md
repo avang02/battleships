@@ -19,6 +19,4 @@ A game where player plays against computer to see who sinks the otherside's batt
 
 # Next Steps
 
-- Add win condition
-- Add Game Over screen
 - Add sounds

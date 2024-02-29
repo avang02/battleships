@@ -26,48 +26,100 @@
   let angle = 0; // Direction of player's ship facing
   let draggedship;  // The player's ship being dragged onto board
   let dropped; // Boolean for ships being dropped
+  let shipCounter = 0; // Counter for player ships
   let playerHits = [];  // Ships that the player hits
   let cpuHits = []; // Ships the CPU hits
+  let cpuCheat = false;
+  let playerCheat = false;
+  let keysPressHolder = {};
 
   /*----- cached elements  -----*/
+  const getHeader = document.querySelector('header');
   const flipButton = document.querySelector('#flip-btn');
   const showButton = document.querySelector('#show-game');
   const getHideEl = document.querySelector('.hide');
-  const getPlayerShipEl = document.querySelector('.player-ships section');
-  const playerShips = document.querySelector('.player-ships');
+  const getGameOverScreenEl = document.querySelector('.game-over-screen');
+  const getWinnerEl = document.querySelector('.winner');
+  const getHomerEl = document.querySelector('#homer');
+  const getBartEl = document.querySelector('#bart');
+  const tryAgainBtn = document.querySelector('#try-again');
+  const playerShips = document.querySelector('.player-ships section');
   const pNumContainer = document.querySelector('.player-nums');
   const cNumContainer = document.querySelector('.cpu-nums');
   const pAlphaNumContainer = document.querySelector('.player-alpha-nums');
   const cAlphaNumContainer = document.querySelector('.cpu-alpha-nums');
   const playerBoard = document.querySelector('.player-board');
+  const playerCells = document.querySelectorAll('.player-board div');
   const cpuBoard = document.querySelector('.cpu-board');
   const startButton = document.querySelector('#game-start');
   const getInfoEl = document.getElementById('info');
 
+  const playerOptionShips = Array.from(playerShips.children);
+  
   /*----- event listeners -----*/
-  flipButton.addEventListener('click', flip);
-  startButton.addEventListener('click', startGame)
-  showButton.addEventListener('click', render);
 
+  function renderEventListeners() {
+    flipButton.addEventListener('click', flip);
+    startButton.addEventListener('click', startGame);
+    showButton.addEventListener('click', showGame);
+    tryAgainBtn.addEventListener('click', restart);
+    playerOptionShips.forEach(ship=> ship.addEventListener('dragstart', dragStart));
+  }
   
   /*----- Main -----*/
-
   render();
+  renderEventListeners();
   /*----- functions -----*/
 
-  // Render's the board at start up and at current state of game
+  // Render's the board at start up and at current state of game and reset the game
   function render() {
-    getHideEl.style.display = "flex";
-    showButton.style.display = "none";
     renderNums();
     renderAlphaNums();
     renderBoard();
   }
+  function showGame() {
+    getHideEl.style.display = "flex";
+    showButton.style.display = "none";
+  }
+  function restart() {
+    refreshGame()
+    render();
+    renderEventListeners();
+    hideGameover();
+    showGame();
+  }
+  function refreshGame() {
+    const cpuCells = Array.from(cpuBoard.children);
+    const playerCells = Array.from(playerBoard.children);
+    const newPlayerShips = Array.from(playerShips.children);
+    const newPNumContainer = Array.from(pNumContainer.children);
+    const newCNumContainer = Array.from(cNumContainer.children);
+    const newPAlphaNumContainer = Array.from(pAlphaNumContainer.children);
+    const newCAlphaNumContainer = Array.from(cAlphaNumContainer.children);
+    cpuCells.forEach(cell=> cell.remove());
+    playerCells.forEach(cell=> cell.remove());
+    newPlayerShips.forEach(ship => ship.style.display = 'flex');
+    newPNumContainer.forEach(num=> num.remove());
+    newCNumContainer.forEach(num=> num.remove());
+    newPAlphaNumContainer.forEach(alpha=> alpha.remove());
+    newCAlphaNumContainer.forEach(alpha=> alpha.remove());
+    startButton.style.display = 'flex';
+    getHeader.style.display = 'flex';
+    getInfoEl.innerHTML = ``;
+    playerHits = [];
+    cpuHits = [];
+    shipCounter = 0;
+  }
+  function hideGameover() {
+    getGameOverScreenEl.style.display = 'none';
+    getHomerEl.style.display = 'none';
+    getBartEl.style.display = 'none';
+  }
 
   // Renders two 10x10 board for player and CPU. Each board will have letter's A-J for each row and numbers 1-10 for each column
   function renderBoard() {
-    renderPlayerShips();
     renderPlayerBoard();
+    renderPlayerShips();
     renderCpuBoard();
   }
 
@@ -104,7 +156,12 @@
     }
   }
   function renderPlayerShips(){
-    getPlayerShipEl.className = 'horizontal';
+    playerShips.className = 'horizontal';
+    const playerCells = document.querySelectorAll('.player-board div');
+    playerCells.forEach(cell=> {
+    cell.addEventListener('dragover', dragOver);
+    cell.addEventListener('drop', shipDrop);
+  })
   }
 
 
@@ -139,14 +196,13 @@
   function flip() {
     const pShips = Array.from(playerShips.children);
     if(angle === 0) {
-      getPlayerShipEl.className = 'vertical';
+      playerShips.className = 'vertical';
       angle = 90;
     } else {
-      getPlayerShipEl.className = 'horizontal';
+      playerShips.className = 'horizontal';
       angle = 0;
     }
-    console.log(angle);
-    for(let i = 1; i < pShips.length; i++) {
+    for(let i = 0; i < pShips.length; i++) {
       pShips[i].style.transform = `rotate(${angle}deg)`;
     }
     
@@ -200,14 +256,6 @@
   }
 
   // Drag Player Ships
-  const playerCells = document.querySelectorAll('.player-board div');
-  const playerOptionShips = Array.from(playerShips.children);
-  playerCells.forEach(cell=> {
-    cell.addEventListener('dragover', dragOver);
-    cell.addEventListener('drop', shipDrop);
-  })
-  playerOptionShips.forEach(ship=> ship.addEventListener('dragstart', dragStart));
-  
   function dragStart(et) {
     dropped = false;
     draggedship = et.target;
@@ -220,7 +268,8 @@
     const ship = pShips[draggedship.id];
     playerShipPlacement(ship, pStartId, draggedship.id);
     if (dropped) {
-      draggedship.remove();
+      draggedship.style.display = 'none';
+      shipCounter++;
     }
   }
 
@@ -269,7 +318,8 @@
   }
 
   function startGame() {
-    if(getPlayerShipEl.children.length === 0) {
+    if(shipCounter === 5) {
+      startButton.style.display = 'none';
       const cpuCells = document.querySelectorAll('.cpu-board div');
       cpuCells.forEach(cell => cell.addEventListener('click', shot));
     } else {
@@ -287,7 +337,6 @@
         hitCpuShips = hitCpuShips.filter(hit => hit !== 'hit');
         hitCpuShips = hitCpuShips.filter(taken => taken !== 'taken');
         playerHits.push(hitCpuShips);
-        console.log(playerHits.length);
       }
       if(!et.target.classList.contains('taken')) {
         et.target.classList.add('miss');
@@ -302,7 +351,6 @@
 
   function cpuTurn() {
     if(winner === null) {
-      const playerCells = document.querySelectorAll('.player-board div');
       let randomXNum = Math.floor(Math.random() * WIDTH + 1);
       let randomYNum = Math.floor(Math.random() * HEIGHT)
       let xCoordinate = randomXNum;
@@ -318,7 +366,6 @@
         hitPlayerShips = hitPlayerShips.filter(hit => hit !== 'hit');
         hitPlayerShips = hitPlayerShips.filter(taken => taken !== 'taken');
         cpuHits.push(hitPlayerShips);
-        console.log(cpuHits.length);
       } else {
         shootCell.classList.add('miss');
       }
@@ -330,8 +377,26 @@
   }
   function checkWinner() {
     if(playerHits.length === 17) {
-      getInfoEl.innerText = "Player is the winner!" ;
+      getHeader.style.display = 'none';
+      getHideEl.style.display = "none";
+      getGameOverScreenEl.style.display = "flex";
+      getWinnerEl.style.color = 'green';
+      getWinnerEl.innerHTML = `Homer WINS!`
+      getHomerEl.style.display = 'flex';
     } else if(cpuHits.length === 17) {
-      getInfoEl.innerText = "CPU is the winner!";
+      getHeader.style.display = 'none';
+      getHideEl.style.display = "none";
+      getGameOverScreenEl.style.display = "flex";
+      getWinnerEl.style.color = 'red';
+      getWinnerEl.innerHTML = `Bart WINS!`
+      getBartEl.style.display = 'flex';
     }
+  }
+  function cpuWin() {
+    getHeader.style.display = 'none';
+    getHideEl.style.display = "none";
+    getGameOverScreenEl.style.display = "flex";
+    getWinnerEl.style.color = 'red';
+    getWinnerEl.innerHTML = `Bart WINS!`
+    getBartEl.style.display = 'flex';
   }
