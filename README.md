@@ -3,7 +3,6 @@ A game where player plays against computer to see who sinks the otherside's batt
 
 # Screenshot
 
-<img src="https://i.imgur.com/QEh5OGe.jpg">
 <img src="https://i.imgur.com/OaHvZ4K.jpg>
 
 # Technologies Used
