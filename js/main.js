@@ -33,6 +33,14 @@
   let playerCheat = false;
   let keysPressHolder = {};
 
+  // All the computer's ships
+  let cpuCarrier = 0;
+  let cpuBattleship = 0;
+  let cpuDestroyer = 0;
+  let cpuSubmarine = 0;
+  let cpuBoat = 0;
+  let throwAway;
+
   /*----- cached elements  -----*/
   const getHeader = document.querySelector('header');
   const flipButton = document.querySelector('#flip-btn');
@@ -106,6 +114,11 @@
     startButton.style.display = 'flex';
     getHeader.style.display = 'flex';
     getInfoEl.innerHTML = ``;
+    cpuCarrier = 0;
+    cpuBattleship = 0;
+    cpuDestroyer = 0;
+    cpuSubmarine = 0;
+    cpuBoat = 0;
     playerHits = [];
     cpuHits = [];
     shipCounter = 0;
@@ -191,7 +204,6 @@
     }
   }
 
-
   // Button for swapping from horizontal/vertical
   function flip() {
     const pShips = Array.from(playerShips.children);
@@ -203,11 +215,9 @@
       playerShips.className = 'horizontal';
       angle = 0;
     }
-    // for(let i = 0; i < pShips.length; i++) {
-    //   pShips[i].style.transform = `rotate(${angle}deg)`;
-    // }
     
   }
+
   // CPU logic for placing ships
   function cpuShipPlacement(ship) {
     let randomBool = Math.random() < 0.5;
@@ -384,10 +394,12 @@
   // Starts the game and player will be able to fire shots onto enemy cells
   function startGame() {
     if(shipCounter === 5) {
+      getInfoEl.innerText = "Fire at Bart!"
       startButton.style.display = 'none';
       const cpuCells = document.querySelectorAll('.cpu-board div');
       cpuCells.forEach(cell => cell.addEventListener('click', shot));
     } else {
+      getInfoEl.innerText = "Place all your ships first!";
       return;
     }
   }
@@ -395,6 +407,7 @@
     if(winner === null) {
       if(et.target.classList.contains('hit') || et.target.classList.contains('miss')){
         et.target.removeEventListener('click', shot);
+        getInfoEl.innerText = "You already shot here!";
         return;
       } else if(et.target.classList.contains('taken')) {
         et.target.classList.add('hit');
@@ -402,6 +415,7 @@
         hitCpuShips = hitCpuShips.filter(hit => hit !== 'hit');
         hitCpuShips = hitCpuShips.filter(taken => taken !== 'taken');
         playerHits.push(hitCpuShips);
+        shipGraveyard(hitCpuShips[0].toString());
       }
       if(!et.target.classList.contains('taken')) {
         et.target.classList.add('miss');
@@ -412,6 +426,26 @@
     const cpuCells = document.querySelectorAll('.cpu-board div');
     cpuCells.forEach(cell => cell.removeEventListener('click', shot));
     setTimeout(cpuTurn, 250)
+  }
+  function shipGraveyard(et) {
+    et === 'carrier' ? cpuCarrier++ : 
+    et === 'battleship' ? cpuBattleship++ : 
+    et === 'destroyer' ? cpuDestroyer++ : 
+    et === 'submarine' ? cpuSubmarine++ : 
+    et === 'patrol-boat' ? cpuBoat++ : cpuBoat = 0;
+
+    cpuCarrier === 5 ? getInfoEl.innerText = "You sunk his carrier!" :
+    cpuBattleship === 4 ? getInfoEl.innerText = "You sunk his battleship!" :
+    cpuDestroyer === 3 ? getInfoEl.innerText = "You sunk his destroyer!" :
+    cpuSubmarine === 3 ? getInfoEl.innerText = "You sunk his submarine!" :
+    cpuBoat === 2 ? getInfoEl.innerText = "You sunk his patrol boat!" : 
+    getInfoEl.innerText = 'HA! We gottem!';
+
+    cpuCarrier === 5 ? cpuCarrier = 0 :
+    cpuBattleship === 4 ? cpuBattleship = 0 :
+    cpuDestroyer === 3 ? cpuDestroyer = 0 : 
+    cpuSubmarine === 3 ? cpuSubmarine = 0 :
+    cpuBoat === 2 ? cpuBoat = 0 : throwAway = 0;
   }
 
   // Logic for the CPU to fire to player
@@ -468,10 +502,4 @@
     getWinnerEl.style.color = 'red';
     getWinnerEl.innerHTML = `Bart WINS!`;
     getBartEl.style.display = 'flex';
-    // getHeader.style.display = 'none';
-    // getHideEl.style.display = "none";
-    // getGameOverScreenEl.style.display = "flex";
-    // getWinnerEl.style.color = 'green';
-    // getWinnerEl.innerHTML = `Homer WINS!`
-    // getHomerEl.style.display = 'flex';
   }
