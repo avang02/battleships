@@ -29,6 +29,9 @@ header {
     font-size: 4vmin;
     color: rgb(223, 236, 30);
 }
+#show-game {
+    cursor: pointer;
+}
 h1 {
     margin: 0 auto;
 }
@@ -169,7 +172,21 @@ h1 {
 .player-board > .patrol-boat {
     background-color: firebrick;
 }
-
+.player-board > .chover{
+    background-color: rgb(224, 224, 106);
+}
+.player-board >.bhover {
+    background-color: rgb(167, 103, 228);
+}
+.player-board > .dhover {
+    background-color: rgb(166, 236, 96);
+}
+.player-board > .shover {
+    background-color: rgb(216, 87, 87);
+}
+.player-board > .phover {
+    background-color: rgb(226, 102, 102);
+}
 /* Creates the CPU's */
 .cpu-board {
     width: 50vmin;
@@ -213,120 +230,91 @@ h1 {
     width: 50vmin;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-around;
+}
+.my-ships {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+#game-start {
+    cursor: pointer;
 }
 #flip-btn {
     cursor: pointer;
     width: 10vmin;
 }
-.player-ships > .horizontal {
-    width: 25vmin;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-.player-ships > .vertical {
+.vertical {
+    cursor: grab;
+    width: 27vmin;
     height: 27vmin;
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: flex-end;
+    display: flex-end;
+    flex-direction: row;
+    /* align-items: flex-end; */
 }
 .horizontal > .carrier {
+    cursor: grab;
     height: 5vmin;
     width: 25vmin;
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
     background-color: yellow;
 }
 .horizontal > .battleship {
+    cursor: grab;
     height: 5vmin;
     width: 20vmin;
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
     background-color: blueviolet;
 }
 .horizontal > .destroyer {
+    cursor: grab;
     height: 5vmin;
     width: 15vmin;
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
     background-color: chartreuse;
 }
 .horizontal > .submarine {
+    cursor: grab;
     height: 5vmin;
     width: 15vmin;
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
     background-color: brown;
 }
 .horizontal > .patrol-boat {
+    cursor: grab;
     height: 5vmin;
     width: 10vmin;
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
     background-color: firebrick;
 }
 .vertical > .carrier {
-    height: 5vmin;
-    width: 25vmin;
-    margin-bottom: 5px;
+    cursor: grab;
+    height: 25vmin;
+    width: 5vmin;
     background-color: yellow;
 }
 .vertical > .battleship {
-    height: 5vmin;
-    width: 20vmin;
-    margin-bottom: 5px;
+    cursor: grab;
+    height: 20vmin;
+    width: 5vmin;
     background-color: blueviolet;
 }
 .vertical > .destroyer {
-    height: 5vmin;
-    width: 15vmin;
-    margin-bottom: 5px;
+    cursor: grab;
+    height: 15vmin;
+    width: 5vmin;
     background-color: chartreuse;
 }
 .vertical > .submarine {
-    height: 5vmin;
-    width: 15vmin;
-    margin-bottom: 5px;
+    cursor: grab;
+    height: 15vmin;
+    width: 5vmin;
     background-color: brown;
 }
 .vertical > .patrol-boat {
-    height: 5vmin;
-    width: 10vmin;
-    margin-bottom: 5px;
-    background-color: firebrick;
-}
-
-/* Displays the ships of the CPU at the bottom of it's board */
-.cpu-ships {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    margin-bottom: 2vmin;
-}
-.cpu-ships > #carrier {
-    height: 5vmin;
-    width: 25vmin;
-    margin-bottom: 5px;
-    background-color: yellow;
-}
-.cpu-ships > #battleship {
-    height: 5vmin;
-    width: 20vmin;
-    margin-bottom: 5px;
-    background-color: blueviolet;
-}
-.cpu-ships > #destroyer {
-    height: 5vmin;
-    width: 15vmin;
-    margin-bottom: 5px;
-    background-color: chartreuse;
-}
-.cpu-ships > #submarine {
-    height: 5vmin;
-    width: 15vmin;
-    margin-bottom: 5px;
-    background-color: brown;
-}
-.cpu-ships > #patrol-boat {
-    height: 5vmin;
-    width: 10vmin;
-    margin-bottom: 5px;
+    cursor: grab;
+    height: 10vmin;
+    width: 5vmin;
     background-color: firebrick;
 }
 
@@ -370,9 +358,10 @@ h1 {
 
 /* Hides the Game Over screen and displays it when button is pressed */
 .game-over-screen {
-    height: 100vh;
-    width: 100vh;
+    /* height: 100vw;
+    width: 100vw; */
     display: none;
+    flex-direction: column;
     justify-content: center;
     align-content: center;
 }
@@ -385,19 +374,18 @@ h1 {
     justify-content: center;
     align-content: center;
 }
-.game-over > div {
+/* .game-over > div {
     width: 20vmin;
     height: 15vmin;
-}
+} */
 .winner {
-    width: 30vmin;
+    width: 100%;
     height: 15vmin;
     display: flex;
     justify-content: center;
     align-content: center;
 }
 .winner > img {
-    width: 100%;
     height: auto;
 }
 #try-again {

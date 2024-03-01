@@ -197,14 +197,15 @@
     const pShips = Array.from(playerShips.children);
     if(angle === 0) {
       playerShips.className = 'vertical';
+      playerShips.classList.add('my-ships');
       angle = 90;
     } else {
       playerShips.className = 'horizontal';
       angle = 0;
     }
-    for(let i = 0; i < pShips.length; i++) {
-      pShips[i].style.transform = `rotate(${angle}deg)`;
-    }
+    // for(let i = 0; i < pShips.length; i++) {
+    //   pShips[i].style.transform = `rotate(${angle}deg)`;
+    // }
     
   }
   // CPU logic for placing ships
@@ -262,6 +263,8 @@
   }
   function dragOver(et) {
     et.preventDefault();
+    const ship = pShips[draggedship.id];
+    addAreaHighlight(et.target.id, ship)
   }
   function shipDrop(et) {
     const pStartId = et.target.id;
@@ -316,7 +319,69 @@
       return;
     }
   }
+  // Add highlighted area for player ship placement
+  function addAreaHighlight(startId, ship){ 
+    let isHorizontal = angle === 0;
+    let index = ALPHANUMS.indexOf(startId[0]);
+    let xCoordinate = startId.substr(1, startId.length-1);
+    let yCoordinate = ALPHANUMS[index];
+    let newStartId = yCoordinate + xCoordinate;
+    let xIsValid = xCoordinate <= WIDTH-ship.length+1;
+    let yIsValid = index <= HEIGHT-ship.length;
+    let shipCells = [];
 
+    for(let i = 0; i < ship.length; i++) {
+      if(isHorizontal){
+        if(xIsValid){
+          newStartId = yCoordinate + (Number(xCoordinate)+i);
+          shipCells.push(document.getElementById(newStartId));
+        } else {
+          xCoordinate = WIDTH-ship.length+1;
+          newStartId = yCoordinate + (Number(xCoordinate)+i);
+          shipCells.push(document.getElementById(newStartId));
+        }
+      } else {
+        if(yIsValid){
+          newStartId = (ALPHANUMS[index+i]) + xCoordinate;
+          shipCells.push(document.getElementById(newStartId));
+        } else {
+          index = HEIGHT-ship.length;
+          newStartId = (ALPHANUMS[index+i]) + xCoordinate;
+          shipCells.push(document.getElementById(newStartId));
+        }
+      }
+    }
+    if(ship.name === 'carrier') {
+      shipCells.forEach(cell => {
+        cell.classList.add('chover');
+        setTimeout(()=> cell.classList.remove('chover'), 1000)
+      })
+    } else if(ship.name === 'battleship') {
+      shipCells.forEach(cell => {
+        cell.classList.add('bhover');
+        setTimeout(()=> cell.classList.remove('bhover'), 1000)
+      })
+    } else if(ship.name === 'destroyer') {
+      shipCells.forEach(cell => {
+        cell.classList.add('dhover');
+        setTimeout(()=> cell.classList.remove('dhover'), 1000)
+      })
+    } else if(ship.name === 'submarine') {
+      shipCells.forEach(cell => {
+        cell.classList.add('shover');
+        setTimeout(()=> cell.classList.remove('shover'), 1000)
+      })
+    } else if(ship.name === 'patrol-boat') {
+      shipCells.forEach(cell => {
+        cell.classList.add('phover');
+        setTimeout(()=> cell.classList.remove('phover'), 1000)
+      })
+    }
+  }
+
+
+
+  // Starts the game and player will be able to fire shots onto enemy cells
   function startGame() {
     if(shipCounter === 5) {
       startButton.style.display = 'none';
@@ -349,6 +414,7 @@
     setTimeout(cpuTurn, 250)
   }
 
+  // Logic for the CPU to fire to player
   function cpuTurn() {
     if(winner === null) {
       let randomXNum = Math.floor(Math.random() * WIDTH + 1);
@@ -373,7 +439,10 @@
     checkWinner();
     turn = 1;
     const cpuCells = document.querySelectorAll('.cpu-board div');
-    cpuCells.forEach(cell => cell.addEventListener('click', shot));
+    cpuCells.forEach(cell => {
+      cell.style.hover
+      cell.addEventListener('click', shot)
+    });
   }
   function checkWinner() {
     if(playerHits.length === 17) {
@@ -388,7 +457,7 @@
       getHideEl.style.display = "none";
       getGameOverScreenEl.style.display = "flex";
       getWinnerEl.style.color = 'red';
-      getWinnerEl.innerHTML = `Bart WINS!`
+      getWinnerEl.innerHTML = `Bart WINS!`;
       getBartEl.style.display = 'flex';
     }
   }
@@ -397,6 +466,12 @@
     getHideEl.style.display = "none";
     getGameOverScreenEl.style.display = "flex";
     getWinnerEl.style.color = 'red';
-    getWinnerEl.innerHTML = `Bart WINS!`
+    getWinnerEl.innerHTML = `Bart WINS!`;
     getBartEl.style.display = 'flex';
+    // getHeader.style.display = 'none';
+    // getHideEl.style.display = "none";
+    // getGameOverScreenEl.style.display = "flex";
+    // getWinnerEl.style.color = 'green';
+    // getWinnerEl.innerHTML = `Homer WINS!`
+    // getHomerEl.style.display = 'flex';
   }
